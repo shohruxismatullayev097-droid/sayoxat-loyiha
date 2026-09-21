@@ -1,0 +1,222 @@
+.flightContainer {
+    position: relative;
+    width: 100%;
+    height: 550vh; /* Smooth multi-checkpoint flight length */
+    background: #020308;
+}
+
+.stageWrap {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Cinematic filmic gradient vignette */
+.cinematicShade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+        ellipse at center,
+        rgba(2, 3, 8, 0) 45%,
+        rgba(2, 3, 8, 0.4) 75%,
+        rgba(2, 3, 8, 0.85) 100%
+    );
+    z-index: 2;
+}
+
+/* ============================================
+   MINIMAL ROUTE PROGRESS DOTS (top center)
+   ============================================ */
+.routeDotsWrap {
+    position: absolute;
+    top: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 20px;
+    background: rgba(10, 14, 26, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.routeDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.activeDot {
+    background: var(--accent, #06b6d4);
+    box-shadow: 0 0 14px var(--accent, #06b6d4), 0 0 30px rgba(6, 182, 212, 0.3);
+    transform: scale(1.5);
+}
+
+.passedDot {
+    background: rgba(255, 255, 255, 0.65);
+}
+
+/* ============================================
+   CONTENT: Cinematic Title Card & Controls
+   ============================================ */
+.contentWrap {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 40px 56px;
+    text-align: center;
+    pointer-events: none;
+    margin-top: auto;
+}
+
+.warpAlert {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 22px;
+    margin-bottom: 24px;
+    border-radius: 100px;
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.4);
+    backdrop-filter: blur(12px);
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: warpPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes warpPulse {
+    from { transform: scale(0.98); opacity: 0.7; }
+    to { transform: scale(1.02); opacity: 1; }
+}
+
+.titleCard {
+    max-width: 800px;
+    animation: cardAppear 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0px);
+    }
+}
+
+.stepNum {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    color: var(--accent, #06b6d4);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.titleText {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 14px;
+    color: #ffffff;
+    text-shadow: 0 8px 40px rgba(0, 0, 0, 0.95);
+}
+
+.subtitleText {
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 400;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 16px;
+    text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+/* Mini weather badge */
+.weatherMini {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(8px);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.weatherCondition {
+    opacity: 0.6;
+    font-size: 12px;
+}
+
+.scrollGuide {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.6;
+    margin-top: 16px;
+    animation: guideBob 2.5s ease-in-out infinite;
+}
+
+.guideText {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 500;
+}
+
+.guideArrow {
+    font-size: 14px;
+    color: var(--accent, #06b6d4);
+}
+
+@keyframes guideBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .routeDotsWrap {
+        top: 20px;
+        gap: 8px;
+        padding: 8px 16px;
+    }
+    .contentWrap {
+        padding: 0 20px 36px;
+    }
+    .titleText {
+        font-size: 2.6rem;
+    }
+}

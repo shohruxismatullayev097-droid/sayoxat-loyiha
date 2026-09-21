@@ -1,0 +1,375 @@
+.page {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: #020308;
+    will-change: transform, opacity;
+}
+
+/* ---------- ORQAGA TUGMASI (BOSHIDA — fixed) ---------- */
+.back {
+    position: fixed;
+    top: 32px;
+    left: 32px;
+    z-index: 100;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+
+    background: rgba(10, 14, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back:hover {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
+    transform: translateX(-4px);
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.4);
+}
+
+.back svg {
+    transition: transform 0.3s ease;
+}
+
+.back:hover svg {
+    transform: translateX(-3px);
+}
+
+/* ---------- HERO ---------- */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 5;
+}
+
+.flag {
+    font-size: clamp(4rem, 8vw, 7rem);
+    line-height: 1;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 40px rgba(6, 182, 212, 0.5));
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 12vw, 10rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    line-height: 0.92;
+
+    background: linear-gradient(180deg, #ffffff 0%, #a8b8d0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+
+    margin-bottom: 24px;
+    filter: drop-shadow(0 8px 40px rgba(0, 0, 0, 0.6));
+}
+
+.subtitle {
+    font-size: clamp(0.9rem, 1.3vw, 1.1rem);
+    color: var(--text-dim);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
+    max-width: 500px;
+}
+
+.heroArrow {
+    margin-top: 60px;
+    font-size: 28px;
+    color: var(--accent);
+    animation: bounceDown 2s ease-in-out infinite;
+}
+
+@keyframes bounceDown {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50%      { transform: translateY(14px); opacity: 1; }
+}
+
+/* =============================================
+   BRON QILISH BO'LIMI (Oxirida)
+   ============================================= */
+.bookingSection {
+    position: relative;
+    z-index: 5;
+    padding: 100px 24px 80px;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(180deg, #020308 0%, #0a1020 50%, #020308 100%);
+}
+
+.bookingInner {
+    text-align: center;
+    max-width: 620px;
+}
+
+.bookingIcon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 24px;
+    filter: drop-shadow(0 0 32px rgba(6, 182, 212, 0.4));
+}
+
+.bookingTitle {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #ffffff, #a0d2db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.bookingDesc {
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.7;
+    margin-bottom: 36px;
+}
+
+.bookingBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 40px;
+    background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+    border: none;
+    border-radius: 100px;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    box-shadow: 0 12px 40px rgba(6, 182, 212, 0.35);
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bookingBtn:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 16px 50px rgba(6, 182, 212, 0.55);
+}
+
+/* =============================================
+   PORTFOLIO / HAQIMDA BO'LIMI
+   ============================================= */
+.aboutSection {
+    position: relative;
+    z-index: 5;
+    padding: 80px 24px 60px;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(180deg, #020308 0%, #0c1424 50%, #020308 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.aboutInner {
+    text-align: center;
+    max-width: 640px;
+}
+
+.aboutBadge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 100px;
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    color: #a78bfa;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+}
+
+.aboutTitle {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #ffffff, #c4b5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.aboutRole {
+    font-size: clamp(0.9rem, 1.2vw, 1rem);
+    color: rgba(167, 139, 250, 0.8);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+}
+
+.aboutBio {
+    font-size: clamp(0.95rem, 1.2vw, 1.05rem);
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.8;
+    margin-bottom: 28px;
+}
+
+.techStack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 32px;
+}
+
+.techTag {
+    padding: 6px 16px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: all 0.3s ease;
+}
+
+.techTag:hover {
+    background: rgba(6, 182, 212, 0.15);
+    border-color: rgba(6, 182, 212, 0.3);
+    color: #06b6d4;
+}
+
+.aboutLinks {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.aboutLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 100px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.aboutLink:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- ORTGA QAYTISH (OXIRIDA) ---------- */
+.bottomBackWrap {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    justify-content: center;
+    padding: 48px 24px 24px;
+}
+
+.bottomBack {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+
+    background: rgba(10, 14, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+
+    color: #fff;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.bottomBack:hover {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.4);
+}
+
+.bottomBack svg {
+    transition: transform 0.3s ease;
+}
+
+.bottomBack:hover svg {
+    transform: translateX(-3px);
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+    position: relative;
+    padding: 40px 24px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    z-index: 5;
+}
+
+.footer p {
+    color: var(--text-mute);
+    font-size: 13px;
+    letter-spacing: 0.05em;
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 768px) {
+    .back {
+        top: 20px;
+        left: 20px;
+        padding: 10px 16px;
+        font-size: 12px;
+    }
+
+    .bookingSection {
+        padding: 60px 20px 50px;
+    }
+
+    .aboutSection {
+        padding: 50px 20px 40px;
+    }
+
+    .aboutLinks {
+        flex-direction: column;
+        align-items: center;
+    }
+}

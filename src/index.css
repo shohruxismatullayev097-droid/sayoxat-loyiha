@@ -1,0 +1,324 @@
+/* ============================================
+   SAYOHAT — GLOBAL STILLAR
+   ============================================ */
+
+/* ---------- RANG PALITRASI ---------- */
+:root {
+    /* Fon */
+    --bg: #0a0e1a;
+    --bg-2: #121826;
+    --bg-3: #1a2235;
+
+    /* Matn */
+    --text: #f5f5f7;
+    --text-dim: #8b92a8;
+    --text-mute: #5a6070;
+
+    /* Accent */
+    --accent: #06b6d4;
+    --accent-2: #7c3aed;
+    --accent-glow: rgba(6, 182, 212, 0.4);
+
+    /* Chegara */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+
+    /* Shrift */
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Inter', system-ui, sans-serif;
+
+    /* O'lchamlar */
+    --header-height: 80px;
+    --radius: 16px;
+    --radius-lg: 24px;
+
+    /* Animatsiya */
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---------- RESET ---------- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+#root {
+    min-height: 100vh;
+}
+
+/* ---------- TIPOGRAFIYA ---------- */
+h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2.5rem, 6vw, 5rem); }
+h2 { font-size: clamp(2rem, 4vw, 3.5rem); }
+h3 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
+p {
+    color: var(--text-dim);
+    line-height: 1.7;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: inherit;
+}
+
+/* ---------- SCROLLBAR ---------- */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb {
+    background: var(--bg-3);
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ---------- SELECTION ---------- */
+::selection {
+    background: var(--accent);
+    color: var(--bg);
+}
+/* ---------- APP LAYOUT ---------- */
+.app {
+    position: relative;
+    min-height: 100vh;
+}
+
+.main {
+    padding-top: 0;
+}
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px;
+}
+/* ---------- HERO (yangilangan) ---------- */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 24px 60px;
+    overflow: hidden;
+}
+
+.hero-globe {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: #020308; /* to'q fon */
+}
+
+.hero-text {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+    margin-top: auto;
+    padding-bottom: 60px;
+}
+
+.hero-text h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 10px;
+
+    color: #f5f5f7;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9);
+}
+
+.hero-text > p {
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.hero-hint {
+    margin-top: 24px;
+    font-size: 0.85rem !important;
+    color: var(--text-mute) !important;
+    text-transform: none !important;
+    letter-spacing: 0.05em !important;
+    animation: fadeIn 2s ease 1s both;
+}
+/* Country list uchun glow */
+.hero-text h1 {
+    transition: all 0.5s ease;
+}
+/* ============================================
+   RETURN BUTTON
+   ============================================ */
+.return-btn {
+    position: absolute;
+    top: 120px;
+    left: 32px;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+
+    background: rgba(10, 14, 26, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 100px;
+
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+
+    animation: fadeSlideIn 0.5s ease both;
+}
+
+.return-btn:hover {
+    background: rgba(6, 182, 212, 0.2);
+    border-color: rgba(6, 182, 212, 0.5);
+    transform: translateX(-4px);
+    box-shadow: 0 8px 32px rgba(6, 182, 212, 0.4);
+}
+
+.return-btn svg {
+    transition: transform 0.3s ease;
+}
+
+.return-btn:hover svg {
+    transform: translateX(-3px);
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Hero text animatsiya */
+.hero-text h1,
+.hero-text p {
+    animation: fadeIn 0.6s ease both;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+    .return-btn {
+        top: auto;
+        bottom: 110px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 12px;
+        padding: 10px 16px;
+    }
+
+    .return-btn:hover {
+        transform: translateX(-50%) scale(1.05);
+    }
+}
+/* ============================================
+   TRANSITION OVERLAY (E variant)
+   ============================================ */
+.transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(
+        circle at center,
+        rgba(6, 182, 212, 0.15) 0%,
+        rgba(2, 3, 8, 0.98) 60%
+    );
+    pointer-events: none;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.transition-star {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow:
+        0 0 30px 6px #fff,
+        0 0 80px 16px rgba(6, 182, 212, 0.9),
+        0 0 160px 40px rgba(6, 182, 212, 0.4);
+    animation: starPulse 0.9s ease-out;
+}
+
+@keyframes starPulse {
+    0%   { transform: scale(0);   opacity: 0; }
+    25%  { transform: scale(1.4); opacity: 1; }
+    60%  { transform: scale(2);   opacity: 1; }
+    100% { transform: scale(12);  opacity: 0; }
+}
+
+.loading-text {
+    animation: fadeIn 0.4s ease both;
+}
+
+.loading-text p {
+    font-size: 14px !important;
+    letter-spacing: 0.15em !important;
+    text-transform: uppercase !important;
+    color: var(--accent) !important;
+}
