@@ -1,7 +1,7 @@
 import { countries } from '../../data/countries';
 import styles from './CountryList.module.css';
 
-export function CountryList({ activeId, onSelect }) {
+export function CountryList({ activeId, onSelect, language = 'uz' }) {
     return (
         <aside className={styles.panel}>
             <div className={styles.header}>
@@ -18,7 +18,7 @@ export function CountryList({ activeId, onSelect }) {
                             style={{ '--accent': c.color }}
                         >
                             <span className={styles.flag}>{c.flag}</span>
-                            <span className={styles.name}>{c.name.uz}</span>
+                            <span className={styles.name}>{c.name[language]}</span>
                             <span className={styles.num}>{String(i + 1).padStart(2, '0')}</span>
                         </button>
                     </li>

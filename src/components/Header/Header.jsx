@@ -1,15 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useScrollDirection } from '../../hooks/useScrollDirection';
 import { soundscape } from '../../utils/soundscape';
 import styles from './Header.module.css';
 
-export function Header() {
+export function Header({ language = 'uz', onLanguageChange, variant = 'default' }) {
     const hidden = useScrollDirection();
-    const [lang, setLang] = useState('UZ');
     const [langOpen, setLangOpen] = useState(false);
+    const langRef = useRef();
     const [sound, setSound] = useState(false);
 
-    const languages = ['UZ', 'RU', 'EN'];
+    const languages = [
+        { code: 'UZ', value: 'uz' },
+        { code: 'RU', value: 'ru' },
+        { code: 'EN', value: 'en' },
+    ];
+    const soundText = {
+        uz: { on: 'Musiqa yoqildi', off: 'Musiqa', onTitle: "Musiqani o'chirish", offTitle: 'Fon musiqasini yoqish' },
+        ru: { on: 'Музыка включена', off: 'Музыка', onTitle: 'Выключить музыку', offTitle: 'Включить фоновую музыку' },
+        en: { on: 'Music on', off: 'Music', onTitle: 'Turn music off', offTitle: 'Turn background music on' },
+    }[language] || {};
+
+    useEffect(() => {
+        const closeOnOutsideClick = (event) => {
+            if (langRef.current && !langRef.current.contains(event.target)) {
+                setLangOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', closeOnOutsideClick);
+        return () => document.removeEventListener('mousedown', closeOnOutsideClick);
+    }, []);
 
     const handleSoundToggle = () => {
         const isPlaying = soundscape.toggle();
@@ -17,7 +36,7 @@ export function Header() {
     };
 
     return (
-        <header className={`${styles.header} ${hidden ? styles.hidden : ''}`}>
+        <header className={`${styles.header} ${variant === 'country' ? styles.countryHeader : ''} ${hidden ? styles.hidden : ''}`}>
             <div className={styles.pill}>
 
                 {/* LOGO */}
@@ -30,25 +49,25 @@ export function Header() {
                 <div className={styles.actions}>
 
                     {/* TIL */}
-                    <div className={styles.langWrap}>
+                    <div ref={langRef} className={styles.langWrap}>
                         <button
                             className={styles.iconBtn}
                             onClick={() => setLangOpen(!langOpen)}
                         >
-                            🌐 {lang}
+                            🌐 {language.toUpperCase()}
                         </button>
                         {langOpen && (
                             <div className={styles.dropdown}>
                                 {languages.map(l => (
                                     <button
-                                        key={l}
-                                        className={l === lang ? styles.active : ''}
+                                        key={l.value}
+                                        className={l.value === language ? styles.active : ''}
                                         onClick={() => {
-                                            setLang(l);
+                                            onLanguageChange?.(l.value);
                                             setLangOpen(false);
                                         }}
                                     >
-                                        {l}
+                                        {l.code}
                                     </button>
                                 ))}
                             </div>
@@ -59,7 +78,7 @@ export function Header() {
                     <button
                         className={`${styles.iconBtn} ${sound ? styles.soundActive : ''}`}
                         onClick={handleSoundToggle}
-                        title={sound ? "Musiqani o'chirish" : "Fon musiqasini yoqish"}
+                        title={sound ? soundText.onTitle : soundText.offTitle}
                         style={{
                             background: sound ? 'rgba(6, 182, 212, 0.25)' : 'rgba(255, 255, 255, 0.08)',
                             borderColor: sound ? 'rgba(6, 182, 212, 0.6)' : 'rgba(255, 255, 255, 0.12)',
@@ -74,7 +93,7 @@ export function Header() {
                         }}
                     >
                         <span>{sound ? '🔊' : '🔇'}</span>
-                        <span>{sound ? 'Musiqa yoqildi' : 'Musiqa'}</span>
+                        <span>{sound ? soundText.on : soundText.off}</span>
                     </button>
 
                 </div>

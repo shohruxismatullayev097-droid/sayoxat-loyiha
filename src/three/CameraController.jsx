@@ -5,7 +5,7 @@ import * as THREE from 'three';
 
 const DEFAULT_DIST = 4.5;
 const COUNTRY_DIST = 2.38; // Orbital descent close to the atmosphere
-const DURATION = 2.0;
+const DURATION = 4.2;
 
 function latLonToDirection(lat, lon) {
     const phi = (90 - lat) * (Math.PI / 180);

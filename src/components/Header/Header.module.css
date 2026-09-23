@@ -20,6 +20,24 @@
     opacity: 0;
 }
 
+.countryHeader {
+    top: 26px;
+    justify-content: flex-end;
+    padding-right: clamp(24px, 5vw, 72px);
+}
+
+.countryHeader .pill {
+    min-width: 0;
+    max-width: none;
+    padding: 9px 12px 9px 18px;
+    gap: 18px;
+    background: rgba(5, 9, 19, 0.48);
+}
+
+.countryHeader .logo {
+    display: none;
+}
+
 .pill {
     pointer-events: all;
     display: flex;

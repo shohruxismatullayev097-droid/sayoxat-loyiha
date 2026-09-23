@@ -6,6 +6,7 @@ export const countries = [
         color: '#1eb4d4',
         lat: 41.3775,
         lon: 64.5853,
+        intro: "Buyuk Ipak yo'li, qadimiy shaharlar va mehmondo'stlik yurti.",
     },
     {
         id: 'japan',
@@ -14,6 +15,7 @@ export const countries = [
         color: '#e63946',
         lat: 36.2048,
         lon: 138.2529,
+        intro: "An'analar, texnologiya va betakror tabiat uyg'unlashgan orol.",
     },
     {
         id: 'italy',
@@ -22,6 +24,7 @@ export const countries = [
         color: '#4caf50',
         lat: 41.8719,
         lon: 12.5674,
+        intro: "San'at, tarix va mazali taomlar yashaydigan quyoshli o'lka.",
     },
     {
         id: 'egypt',
@@ -30,6 +33,7 @@ export const countries = [
         color: '#e8b84a',
         lat: 26.8206,
         lon: 30.8025,
+        intro: "Qadimiy piramidalar, Nil va sirli tarix sari sayohat.",
     },
     {
         id: 'brazil',
@@ -38,6 +42,7 @@ export const countries = [
         color: '#2ecc71',
         lat: -14.2350,
         lon: -51.9253,
+        intro: "Rang-barang madaniyat, tropik tabiat va cheksiz ritmlar mamlakati.",
     },
     {
         id: 'canada',
@@ -46,6 +51,7 @@ export const countries = [
         color: '#ff4d4d',
         lat: 56.1304,
         lon: -106.3468,
+        intro: "Keng tabiat, sokin ko'llar va shimoliy sehrni kashf eting.",
     },
     {
         id: 'russia',
@@ -54,5 +60,6 @@ export const countries = [
         color: '#4a7fd4',
         lat: 61.5240,
         lon: 105.3188,
+        intro: "Ulkan hudud, boy tarix va turli xalqlar madaniyati chorrahasi.",
     },
 ];

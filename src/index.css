@@ -322,3 +322,15 @@ button {
     text-transform: uppercase !important;
     color: var(--accent) !important;
 }
+
+.loading-text span {
+    display: block;
+    max-width: 520px;
+    margin-top: 14px;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 14px;
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+    text-transform: none;
+    animation: fadeUp 0.8s ease 0.35s both;
+}

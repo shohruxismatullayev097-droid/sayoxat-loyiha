@@ -8,30 +8,37 @@ import './index.css';
 import './styles/animations.css';
 
 function App() {
+    const CAMERA_TRANSITION_MS = 4200;
     const [selected, setSelected] = useState(null);
     const [targetCountry, setTargetCountry] = useState(null);
+    const [language, setLanguage] = useState('uz');
+    const homeText = {
+        uz: { title: 'Sayohat', subtitle: 'Dunyoni kashf et', flight: 'ga uchib borilmoqda...' },
+        ru: { title: 'Путешествие', subtitle: 'Откройте мир', flight: ' — полёт к стране...' },
+        en: { title: 'Travel', subtitle: 'Discover the world', flight: ' — flying to...' },
+    }[language];
     const overlayRef = useRef();
 
     const handleSelect = (country) => {
         if (targetCountry || selected) return;
 
-        // 1. Kamera globusda aylanadi (2 sekund)
+        // Kamera globusda sekin aylanib, tanlangan davlatga yaqinlashadi.
         setTargetCountry(country);
 
-        // 2. Yetib kelgandan keyin — transition
+        // Kamera yetib kelgandan keyin sahifani almashtiramiz.
         setTimeout(() => {
             const overlay = overlayRef.current;
             const tl = gsap.timeline();
 
             tl.set(overlay, { display: 'flex', opacity: 0 })
-              .to(overlay, { opacity: 1, duration: 0.5, ease: 'power2.in' })
+              .to(overlay, { opacity: 1, duration: 0.8, ease: 'power2.in' })
               .add(() => {
                   setSelected(country);
                   setTargetCountry(null);
               })
-              .to(overlay, { opacity: 0, duration: 0.6, delay: 0.2, ease: 'power2.out' })
+              .to(overlay, { opacity: 0, duration: 0.9, delay: 0.7, ease: 'power2.out' })
               .set(overlay, { display: 'none' });
-        }, 2000);
+        }, CAMERA_TRANSITION_MS);
     };
 
     const handleBack = () => {
@@ -52,10 +59,15 @@ function App() {
             </div>
 
             {selected ? (
-                <CountryPage country={selected} onClose={handleBack} />
+                <CountryPage
+                    country={selected}
+                    onClose={handleBack}
+                    language={language}
+                    onLanguageChange={setLanguage}
+                />
             ) : (
                 <div className="app">
-                    <Header />
+                    <Header language={language} onLanguageChange={setLanguage} />
                     <main className="main">
                         <section className="hero">
                             <div className="hero-globe">
@@ -66,19 +78,21 @@ function App() {
                                 <CountryList
                                     activeId={null}
                                     onSelect={handleSelect}
+                                    language={language}
                                 />
                             )}
 
                             {!targetCountry && (
                                 <div className="hero-text">
-                                    <h1>Sayohat</h1>
-                                    <p>Dunyoni kashf et</p>
+                                    <h1>{homeText.title}</h1>
+                                    <p>{homeText.subtitle}</p>
                                 </div>
                             )}
 
                             {targetCountry && (
                                 <div className="hero-text loading-text">
-                                    <p>{targetCountry.flag} {targetCountry.name.uz}ga uchib borilmoqda...</p>
+                                                <p>{targetCountry.flag} {targetCountry.name[language]}{homeText.flight}</p>
+                                    <span>{targetCountry.intro}</span>
                                 </div>
                             )}
                         </section>

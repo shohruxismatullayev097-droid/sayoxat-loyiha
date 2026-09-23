@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import styles from './BookingModal.module.css';
 
-export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", initialCity = "Samarqand" }) {
+export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", initialCity = "Samarqand", language = 'uz' }) {
+    const labels = {
+        uz: { badge: 'VIP Sayohat', title: 'bo‘ylab sayohatni rejalashtiring', desc: 'Tarixiy obidalar, qadimiy shaharlar va baland tog‘lar uzra unutilmas sayohat', name: 'Ism va familiyangiz', phone: 'Telefon raqamingiz', city: 'Asosiy manzil', travelers: 'Sayohatchilar', submit: 'Sayohatni bron qilish', success: 'Sayohat muvaffaqiyatli band qilindi!', close: 'Tushunarli, rahmat!', invalid: 'Iltimos, ismingiz va telefon raqamingizni kiriting.', confirm: 'Tez orada operatorimiz siz bilan bog‘lanadi.' },
+        ru: { badge: 'VIP путешествие', title: 'спланируйте путешествие', desc: 'Незабываемое путешествие среди памятников, древних городов и высоких гор', name: 'Имя и фамилия', phone: 'Номер телефона', city: 'Основной маршрут', travelers: 'Путешественники', submit: 'Забронировать поездку', success: 'Путешествие успешно забронировано!', close: 'Понятно, спасибо!', invalid: 'Введите имя и номер телефона.', confirm: 'Наш оператор скоро свяжется с вами.' },
+        en: { badge: 'VIP Travel', title: 'plan your journey', desc: 'An unforgettable journey through historic landmarks, ancient cities and high mountains', name: 'Full name', phone: 'Phone number', city: 'Main destination', travelers: 'Travellers', submit: 'Book a trip', success: 'Your journey has been booked!', close: 'Got it, thanks!', invalid: 'Please enter your name and phone number.', confirm: 'Our operator will contact you soon.' },
+    }[language] || {};
     const [step, setStep] = useState('form'); // 'form' | 'ticket'
     const [formData, setFormData] = useState({
         name: '',
@@ -16,7 +21,7 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!formData.name || !formData.phone) {
-            alert("Iltimos, ismingiz va telefon raqamingizni kiriting.");
+            alert(labels.invalid);
             return;
         }
         setStep('ticket');
@@ -30,14 +35,14 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
                 {step === 'form' ? (
                     <div>
                         <div className={styles.header}>
-                            <span className={styles.badge}>✈️ VIP Sayohat</span>
-                            <h2>{countryName} bo'ylab sayohatni rejalashtiring</h2>
-                            <p>Tarixiy obidalar, qadimiy shaharlar va baland tog'lar uzra unutilmas sayohat</p>
+                            <span className={styles.badge}>✈️ {labels.badge}</span>
+                            <h2>{countryName} — {labels.title}</h2>
+                            <p>{labels.desc}</p>
                         </div>
 
                         <form onSubmit={handleSubmit} className={styles.form}>
                             <div className={styles.field}>
-                                <label>Ism va familiyangiz</label>
+                                <label>{labels.name}</label>
                                 <input
                                     type="text"
                                     placeholder="Masalan: Azizbek Aliyev"
@@ -48,7 +53,7 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
                             </div>
 
                             <div className={styles.field}>
-                                <label>Telefon raqamingiz</label>
+                                <label>{labels.phone}</label>
                                 <input
                                     type="tel"
                                     placeholder="+998 90 123 45 67"
@@ -60,7 +65,7 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
 
                             <div className={styles.row}>
                                 <div className={styles.field}>
-                                    <label>Asosiy manzil</label>
+                                    <label>{labels.city}</label>
                                     <select
                                         value={formData.city}
                                         onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -74,7 +79,7 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
                                 </div>
 
                                 <div className={styles.field}>
-                                    <label>Sayohatchilar</label>
+                                    <label>{labels.travelers}</label>
                                     <select
                                         value={formData.travelers}
                                         onChange={(e) => setFormData({ ...formData, travelers: e.target.value })}
@@ -88,7 +93,7 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
                             </div>
 
                             <button type="submit" className={styles.submitBtn}>
-                                Sayohatni bron qilish
+                                {labels.submit}
                             </button>
                         </form>
                     </div>
@@ -96,8 +101,8 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
                     <div className={styles.ticketCard}>
                         <div className={styles.ticketSuccess}>
                             <span className={styles.checkIcon}>✓</span>
-                            <h3>Sayohat muvaffaqiyatli band qilindi!</h3>
-                            <p>Tez orada operatorimiz siz bilan bog'lanib, barcha tafsilotlarni tasdiqlaydi.</p>
+                            <h3>{labels.success}</h3>
+                            <p>{labels.confirm}</p>
                         </div>
 
                         <div className={styles.boardingPass}>
@@ -126,7 +131,7 @@ export function BookingModal({ isOpen, onClose, countryName = "O'zbekiston", ini
                         </div>
 
                         <button className={styles.closeDoneBtn} onClick={onClose}>
-                            Tushunarli, rahmat!
+                            {labels.close}
                         </button>
                     </div>
                 )}

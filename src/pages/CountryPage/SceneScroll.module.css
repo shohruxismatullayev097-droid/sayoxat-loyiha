@@ -1,7 +1,7 @@
 .flightContainer {
     position: relative;
     width: 100%;
-    height: 550vh; /* Smooth multi-checkpoint flight length */
+    height: 700vh;
     background: #020308;
 }
 
@@ -16,6 +16,12 @@
     justify-content: space-between;
 }
 
+.stageWrap[data-scene="samarqand"] { --scene-accent: #f2c879; --scene-glow: rgba(242, 200, 121, 0.22); }
+.stageWrap[data-scene="buxoro"] { --scene-accent: #d98b57; --scene-glow: rgba(217, 139, 87, 0.22); }
+.stageWrap[data-scene="xiva"] { --scene-accent: #e7b866; --scene-glow: rgba(231, 184, 102, 0.22); }
+.stageWrap[data-scene="toshkent"] { --scene-accent: #75d7e8; --scene-glow: rgba(117, 215, 232, 0.22); }
+.stageWrap[data-scene="chimyon"] { --scene-accent: #b8e8ff; --scene-glow: rgba(184, 232, 255, 0.22); }
+
 /* Cinematic filmic gradient vignette */
 .cinematicShade {
     position: absolute;
@@ -23,12 +29,72 @@
     pointer-events: none;
     background: radial-gradient(
         ellipse at center,
+        var(--scene-glow, rgba(2, 3, 8, 0)) 0%,
         rgba(2, 3, 8, 0) 45%,
         rgba(2, 3, 8, 0.4) 75%,
         rgba(2, 3, 8, 0.85) 100%
     );
     z-index: 2;
 }
+
+.discoveryLayer {
+    position: absolute;
+    inset: 0;
+    z-index: 12;
+    pointer-events: none;
+}
+
+.discoveryCard {
+    position: absolute;
+    width: min(220px, 20vw);
+    padding: 14px 16px;
+    border: 0;
+    border-top: 1px solid color-mix(in srgb, var(--scene-accent, #06b6d4) 60%, transparent);
+    border-radius: 0 0 12px 12px;
+    background: linear-gradient(180deg, rgba(5, 9, 19, 0.38), rgba(5, 9, 19, 0.12));
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    animation: discoveryIn 1s 0.3s var(--ease) forwards;
+}
+
+.discoveryCard span {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--scene-accent, #06b6d4);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+}
+
+.discoveryCard p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.discovery1 { top: 17%; left: 4%; transform-origin: right center; }
+.discovery2 { top: 40%; right: 4%; transform-origin: left center; animation-delay: 0.55s; }
+.discovery3 { bottom: 14%; right: 7%; transform-origin: left center; animation-delay: 0.8s; }
+
+@keyframes discoveryIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.88) rotate(-2deg); filter: blur(8px); }
+    to { opacity: 1; transform: translateY(0) scale(1) rotate(0); filter: blur(0); }
+}
+
+.stageWrap[data-scene="buxoro"] .discovery1 { top: 20%; left: 6%; }
+.stageWrap[data-scene="buxoro"] .discovery2 { top: 44%; right: 5%; }
+.stageWrap[data-scene="buxoro"] .discovery3 { bottom: 13%; right: 8%; }
+.stageWrap[data-scene="xiva"] .discovery1 { top: 17%; left: 7%; }
+.stageWrap[data-scene="xiva"] .discovery2 { top: 43%; right: 5%; }
+.stageWrap[data-scene="xiva"] .discovery3 { bottom: 15%; right: 7%; }
+.stageWrap[data-scene="toshkent"] .discovery1 { top: 19%; left: 5%; }
+.stageWrap[data-scene="toshkent"] .discovery2 { top: 39%; right: 5%; }
+.stageWrap[data-scene="toshkent"] .discovery3 { bottom: 14%; right: 9%; }
+.stageWrap[data-scene="chimyon"] .discovery1 { top: 16%; left: 7%; }
+.stageWrap[data-scene="chimyon"] .discovery2 { top: 43%; right: 6%; }
+.stageWrap[data-scene="chimyon"] .discovery3 { bottom: 14%; right: 9%; }
 
 /* ============================================
    MINIMAL ROUTE PROGRESS DOTS (top center)
@@ -40,7 +106,7 @@
     transform: translateX(-50%);
     z-index: 10;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     padding: 10px 20px;
     background: rgba(10, 14, 26, 0.45);
@@ -59,8 +125,8 @@
 }
 
 .activeDot {
-    background: var(--accent, #06b6d4);
-    box-shadow: 0 0 14px var(--accent, #06b6d4), 0 0 30px rgba(6, 182, 212, 0.3);
+    background: var(--scene-accent, #06b6d4);
+    box-shadow: 0 0 14px var(--scene-accent, #06b6d4), 0 0 30px var(--scene-glow, rgba(6, 182, 212, 0.3));
     transform: scale(1.5);
 }
 
@@ -76,10 +142,10 @@
     z-index: 10;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-end;
-    padding: 0 40px 56px;
-    text-align: center;
+    padding: 0 clamp(24px, 8vw, 120px) 64px;
+    text-align: left;
     pointer-events: none;
     margin-top: auto;
 }
@@ -91,8 +157,8 @@
     padding: 8px 22px;
     margin-bottom: 24px;
     border-radius: 100px;
-    background: rgba(6, 182, 212, 0.15);
-    border: 1px solid rgba(6, 182, 212, 0.4);
+    background: color-mix(in srgb, var(--scene-accent, #06b6d4) 16%, transparent);
+    border: 1px solid color-mix(in srgb, var(--scene-accent, #06b6d4) 55%, transparent);
     backdrop-filter: blur(12px);
     color: rgba(255, 255, 255, 0.9);
     font-size: 13px;
@@ -108,8 +174,15 @@
 }
 
 .titleCard {
-    max-width: 800px;
-    animation: cardAppear 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    width: min(570px, 100%);
+    padding: 26px 30px 22px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    background: linear-gradient(135deg, rgba(7, 11, 23, 0.72), rgba(7, 11, 23, 0.24));
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.36), 0 0 55px var(--scene-glow, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(18px);
+    animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes cardAppear {
@@ -125,27 +198,67 @@
     }
 }
 
+.stageWrap[data-scene="samarqand"] .titleCard { animation-name: revealFromLight; }
+.stageWrap[data-scene="buxoro"] .titleCard { animation-name: revealFromShadow; }
+.stageWrap[data-scene="xiva"] .titleCard { animation-name: revealFromSand; }
+.stageWrap[data-scene="toshkent"] .titleCard { animation-name: revealFromCity; }
+.stageWrap[data-scene="chimyon"] .titleCard { animation-name: revealFromSky; }
+
+@keyframes revealFromLight {
+    from { opacity: 0; transform: translateY(34px) scale(0.96); filter: brightness(1.8) blur(12px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1) blur(0); }
+}
+
+@keyframes revealFromShadow {
+    from { opacity: 0; transform: translateX(-42px); clip-path: inset(0 100% 0 0); }
+    to { opacity: 1; transform: translateX(0); clip-path: inset(0 0 0 0); }
+}
+
+@keyframes revealFromSand {
+    from { opacity: 0; transform: translateY(24px) rotateX(12deg); filter: sepia(1) blur(8px); }
+    to { opacity: 1; transform: translateY(0) rotateX(0); filter: sepia(0) blur(0); }
+}
+
+@keyframes revealFromCity {
+    from { opacity: 0; transform: translateY(50px); letter-spacing: 0.12em; }
+    to { opacity: 1; transform: translateY(0); letter-spacing: normal; }
+}
+
+@keyframes revealFromSky {
+    from { opacity: 0; transform: translateY(-36px) scale(1.04); filter: blur(14px); }
+    to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
 .stepNum {
     display: block;
     font-family: var(--font-body);
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.3em;
-    color: var(--accent, #06b6d4);
+    color: var(--scene-accent, #06b6d4);
     text-transform: uppercase;
     margin-bottom: 10px;
     opacity: 0.8;
 }
 
+.eyebrow {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--scene-accent, #06b6d4);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+}
+
 .titleText {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 7vw, 6rem);
+    font-size: clamp(2.7rem, 5vw, 4.8rem);
     font-weight: 800;
     letter-spacing: -0.03em;
     line-height: 1;
     margin-bottom: 14px;
     color: #ffffff;
-    text-shadow: 0 8px 40px rgba(0, 0, 0, 0.95);
+    text-shadow: 0 8px 35px rgba(0, 0, 0, 0.9);
 }
 
 .subtitleText {
@@ -153,9 +266,26 @@
     color: rgba(255, 255, 255, 0.8);
     font-weight: 400;
     line-height: 1.6;
-    max-width: 600px;
-    margin: 0 auto 16px;
+    max-width: 510px;
+    margin: 0 0 14px;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
+}
+
+.storyText {
+    max-width: 500px;
+    margin: 0 0 16px;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.metaRow {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
 }
 
 /* Mini weather badge */
@@ -171,6 +301,48 @@
     color: rgba(255, 255, 255, 0.7);
     font-weight: 500;
     margin-bottom: 8px;
+}
+
+.metaItem {
+    padding: 6px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 11px;
+}
+
+.factPanel {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 14px;
+    align-items: start;
+    margin: 4px 0 0;
+    padding: 13px 16px;
+    max-width: 620px;
+    text-align: left;
+    border-left: 2px solid var(--scene-accent, #06b6d4);
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.factLabel {
+    color: var(--scene-accent, #06b6d4);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+}
+
+.factPanel p {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.feeling {
+    margin-top: 16px;
+    color: rgba(255, 255, 255, 0.42);
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-style: italic;
 }
 
 .weatherCondition {
@@ -198,7 +370,7 @@
 
 .guideArrow {
     font-size: 14px;
-    color: var(--accent, #06b6d4);
+    color: var(--scene-accent, #06b6d4);
 }
 
 @keyframes guideBob {
@@ -218,5 +390,46 @@
     }
     .titleText {
         font-size: 2.6rem;
+    }
+    .titleCard {
+        padding: 24px 20px 20px;
+        border-radius: 22px;
+    }
+    .contentWrap {
+        align-items: center;
+        text-align: center;
+    }
+    .subtitleText,
+    .storyText {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .metaRow {
+        justify-content: center;
+    }
+    .factPanel {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .scrollGuide {
+        align-items: center;
+        align-self: center;
+    }
+    .discoveryCard {
+        width: min(210px, 42vw);
+        padding: 12px 13px;
+    }
+    .discoveryCard p {
+        font-size: 11px;
+    }
+    .discovery1 { top: 18%; left: 3%; }
+    .discovery2 { top: 27%; right: 3%; }
+    .discovery3 { bottom: 20%; left: 3%; }
+    .storyText {
+        font-size: 13px;
+    }
+    .factPanel {
+        grid-template-columns: 1fr;
+        gap: 5px;
     }
 }
