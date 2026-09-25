@@ -12,12 +12,14 @@ const pageText = {
         back: 'Globusga qaytish',
         start: 'Sayohatni boshlang — pastga scroll qiling',
         bookingTitle: 'Sayohatni bron qiling',
-        bookingDesc: 'Eng go‘zal joylarni o‘z ko‘zingiz bilan ko‘ring. Biz sizga to‘liq sayohat rejasini tayyorlaymiz.',
+        bookingDesc: 'O‘zbekistondagi sayohatingizni bugun rejalashtiring. Marshrutni siz uchun tayyorlaymiz.',
+        bookingPoints: ['Shaxsiy marshrut', 'Mahalliy gid', 'Moslashuvchan reja'],
         bookingButton: 'Sayohatni bron qilish',
         aboutBadge: 'Men haqimda',
         role: 'Full-Stack Developer & UI/UX Designer',
         bio: 'Bu loyiha React, Three.js, GSAP va WebGL texnologiyalari asosida yaratilgan.',
         github: 'GitHub loyihasi',
+        portfolio: 'GitHub portfolio',
         telegram: 'Telegram',
         footer: 'Interaktiv sayohat tajribasi',
     },
@@ -25,12 +27,14 @@ const pageText = {
         back: 'Вернуться к глобусу',
         start: 'Начните путешествие — листайте вниз',
         bookingTitle: 'Забронировать путешествие',
-        bookingDesc: 'Увидьте самые красивые места своими глазами. Мы подготовим для вас полный план путешествия.',
+        bookingDesc: 'Спланируйте путешествие по Узбекистану. Мы подготовим маршрут специально для вас.',
+        bookingPoints: ['Личный маршрут', 'Местный гид', 'Гибкий план'],
         bookingButton: 'Забронировать поездку',
         aboutBadge: 'О проекте',
         role: 'Full-Stack Developer & UI/UX Designer',
         bio: 'Проект создан с использованием React, Three.js, GSAP и WebGL.',
         github: 'Проект на GitHub',
+        portfolio: 'GitHub портфолио',
         telegram: 'Telegram',
         footer: 'Интерактивное путешествие',
     },
@@ -38,12 +42,14 @@ const pageText = {
         back: 'Back to globe',
         start: 'Start your journey — scroll down',
         bookingTitle: 'Book your journey',
-        bookingDesc: 'See the most beautiful places with your own eyes. We will prepare a complete travel plan for you.',
+        bookingDesc: 'Plan your journey through Uzbekistan. We will prepare a route made for you.',
+        bookingPoints: ['Personal route', 'Local guide', 'Flexible plan'],
         bookingButton: 'Book a trip',
         aboutBadge: 'About the project',
         role: 'Full-Stack Developer & UI/UX Designer',
         bio: 'This project is built with React, Three.js, GSAP and WebGL.',
         github: 'GitHub project',
+        portfolio: 'GitHub portfolio',
         telegram: 'Telegram',
         footer: 'An interactive travel experience',
     },
@@ -116,57 +122,80 @@ export function CountryPage({ country, onClose, language = 'uz', onLanguageChang
             {/* =============================================
                 BRON QILISH BO'LIMI (Oxirida)
                 ============================================= */}
-            <section className={styles.bookingSection}>
-                <div className={styles.bookingInner}>
-                    <span className={styles.bookingIcon}>✈️</span>
-                    <h2 className={styles.bookingTitle}>{text.bookingTitle}</h2>
-                    <p className={styles.bookingDesc}>
-                        {country.name[language]} — {text.bookingDesc}
-                    </p>
-                    <button
-                        className={styles.bookingBtn}
-                        onClick={() => setIsBookingOpen(true)}
-                    >
-                        ✈️ {text.bookingButton}
-                    </button>
-                </div>
-            </section>
+            <div className={styles.finalPanels}>
+                <section className={styles.bookingSection}>
+                    <div className={styles.bookingInner}>
+                        <div className={styles.planeTrack} aria-hidden="true">
+                            <div className={styles.flightClouds}>
+                                <span className={`${styles.flightCloud} ${styles.cloudOne}`} />
+                                <span className={`${styles.flightCloud} ${styles.cloudTwo}`} />
+                                <span className={`${styles.flightCloud} ${styles.cloudThree}`} />
+                                <span className={`${styles.flightCloud} ${styles.cloudFour}`} />
+                                <span className={`${styles.flightCloud} ${styles.cloudFive}`} />
+                            </div>
+                            <div className={styles.flightRain} />
+                            <div className={styles.plane3d}>
+                                <span className={styles.planeBody} />
+                                <span className={styles.planeWing} />
+                                <span className={styles.planeTail} />
+                                <span className={styles.planeCockpit} />
+                            </div>
+                        </div>
+                        <h2 className={styles.bookingTitle}>{text.bookingTitle}</h2>
+                        <p className={styles.bookingDesc}>
+                            {country.name[language]} — {text.bookingDesc}
+                        </p>
+                        <div className={styles.bookingBenefits}>
+                            {text.bookingPoints.map((point) => <span key={point}>{point}</span>)}
+                        </div>
+                        <button
+                            className={styles.bookingBtn}
+                            onClick={() => setIsBookingOpen(true)}
+                        >
+                            {text.bookingButton}
+                        </button>
+                    </div>
+                </section>
 
-            {/* =============================================
-                PORTFOLIO / HAQIMDA BO'LIMI
-                ============================================= */}
-            <section className={styles.aboutSection}>
-                <div className={styles.aboutInner}>
-                    <div className={styles.aboutBadge}>{text.aboutBadge}</div>
-                    <h2 className={styles.aboutTitle}>Shoxrux</h2>
-                    <p className={styles.aboutRole}>{text.role}</p>
-                    <p className={styles.aboutBio}>
-                        {text.bio} {language === 'uz' && 'Maqsad — zamonaviy, interaktiv va vizual boy veb-tajriba yaratish.'}
-                    </p>
-                    <div className={styles.techStack}>
-                        <span className={styles.techTag}>React</span>
-                        <span className={styles.techTag}>Three.js</span>
-                        <span className={styles.techTag}>GSAP</span>
-                        <span className={styles.techTag}>WebGL</span>
-                        <span className={styles.techTag}>Vite</span>
-                        <span className={styles.techTag}>Lenis</span>
+                <section className={styles.aboutSection}>
+                    <div className={styles.aboutInner}>
+                        <div className={styles.aboutBadge}>{text.aboutBadge}</div>
+                        <h2 className={styles.aboutTitle}>Shoxrux</h2>
+                        <p className={styles.aboutRole}>{text.role}</p>
+                        <p className={styles.aboutBio}>
+                            {text.bio} {language === 'uz' && 'Maqsad — zamonaviy, interaktiv va vizual boy veb-tajriba yaratish.'}
+                        </p>
+                        <div className={styles.techStack}>
+                            <span className={styles.techTag}>React</span>
+                            <span className={styles.techTag}>Three.js</span>
+                            <span className={styles.techTag}>GSAP</span>
+                            <span className={styles.techTag}>WebGL</span>
+                            <span className={styles.techTag}>Vite</span>
+                            <span className={styles.techTag}>Lenis</span>
+                        </div>
+                        <div className={styles.aboutLinks}>
+                            <a href="https://github.com/shohruxismatullayev097-droid/sayoxat-loyiha" target="_blank" rel="noopener noreferrer" className={styles.aboutLink}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                                {text.github}
+                            </a>
+                            <a href="https://github.com/shohruxismatullayev097-droid" target="_blank" rel="noopener noreferrer" className={styles.aboutLink}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                                {text.portfolio}
+                            </a>
+                            <a href="https://t.me" target="_blank" rel="noopener noreferrer" className={styles.aboutLink}>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M23.5 3.5 20.1 20.1c-.3 1.2-1 1.5-2.1.9l-5.8-4.3-2.8 2.7c-.3.3-.5.5-1 .5l.4-5.9 10.7-9.7c.5-.4-.1-.6-.8-.2L5.5 12.8.1 11.1c-1.2-.4-1.2-1.2.3-1.8L21.7 1c1-.4 2 .2 1.8 2.5z"/>
+                                </svg>
+                                {text.telegram}
+                            </a>
+                        </div>
                     </div>
-                    <div className={styles.aboutLinks}>
-                        <a href="https://github.com/shohruxismatullayev097-droid/sayoxat-loyiha" target="_blank" rel="noopener noreferrer" className={styles.aboutLink}>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            {text.github}
-                        </a>
-                        <a href="https://t.me" target="_blank" rel="noopener noreferrer" className={styles.aboutLink}>
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-                            </svg>
-                            {text.telegram}
-                        </a>
-                    </div>
-                </div>
-            </section>
+                </section>
+            </div>
 
             {/* Ortga qaytish — OXIRIDA */}
             <div className={styles.bottomBackWrap}>

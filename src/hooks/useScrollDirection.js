@@ -4,9 +4,11 @@ export function useScrollDirection() {
     const [hidden, setHidden] = useState(false);
     const lastY = useRef(0);
     const stopTimer = useRef(null);
+    const frameRef = useRef(null);
 
     useEffect(() => {
-        const handleScroll = () => {
+        const updateDirection = () => {
+            frameRef.current = null;
             const y = window.scrollY;
 
             // Tepaga scroll — darrov ko'rsat
@@ -27,10 +29,17 @@ export function useScrollDirection() {
             }, 2000);
         };
 
+        const handleScroll = () => {
+            if (frameRef.current === null) {
+                frameRef.current = requestAnimationFrame(updateDirection);
+            }
+        };
+
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => {
             window.removeEventListener('scroll', handleScroll);
             clearTimeout(stopTimer.current);
+            if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
         };
     }, []);
 

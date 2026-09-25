@@ -34,7 +34,7 @@ export function Earth() {
             </mesh>
 
             {/* YER */}
-            <Sphere ref={earthRef} args={[2, 128, 128]}>
+            <Sphere ref={earthRef} args={[2, 96, 96]}>
                 <meshPhongMaterial
                     map={earthMap}
                     bumpMap={earthBump}
@@ -46,7 +46,7 @@ export function Earth() {
             </Sphere>
 
             {/* BULUTLAR */}
-            <Sphere ref={cloudsRef} args={[2.008, 96, 96]}>
+            <Sphere ref={cloudsRef} args={[2.008, 72, 72]}>
                 <meshStandardMaterial
                     map={cloudsMap}
                     transparent

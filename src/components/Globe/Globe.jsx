@@ -11,7 +11,7 @@ export function Globe({ targetCountry, onSelect }) {
             <Canvas
                 camera={{ position: [1.4, 1.8, -3.8], fov: 45 }}
                 gl={{ antialias: true, alpha: true }}
-                dpr={[1, 2]}
+                dpr={[1, 1.5]}
             >
                 <Suspense fallback={null}>
                     {/* Primary warm sunlight illuminating Central Asia & Silk Road */}

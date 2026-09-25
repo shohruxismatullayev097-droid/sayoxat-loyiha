@@ -197,7 +197,7 @@ export function CinematicDroneStage({ scenes, progressRef }) {
             <Canvas
                 camera={{ position: [0, 0.6, PLANE_Z + 8.5], fov: 48, near: 0.1, far: 80 }}
                 gl={{ antialias: true, powerPreference: 'high-performance' }}
-                dpr={[1, 2]}
+                dpr={[1, 1.5]}
             >
                 <FlightPlane scenes={scenes} progressRef={progressRef} />
             </Canvas>

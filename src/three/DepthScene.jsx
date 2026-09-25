@@ -131,7 +131,7 @@ export function DepthScene({ colorUrl, depthUrl, progressRef, depthStrength, dep
             <Canvas
                 camera={{ position: [0, 1.2, PLANE_Z + DOLLY_START], fov: FOV_START, near: 0.1, far: 100 }}
                 gl={{ antialias: true }}
-                dpr={[1, 2]}
+                dpr={[1, 1.5]}
                 frameloop={active ? 'always' : 'never'}
             >
                 <Suspense fallback={null}>

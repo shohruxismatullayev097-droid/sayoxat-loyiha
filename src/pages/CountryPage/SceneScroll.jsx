@@ -26,16 +26,90 @@ const sceneTranslations = {
 };
 
 const uiTranslations = {
-    uz: { continue: 'Sayohatni davom ettiring', fact: 'BILASIZMI?', altitude: 'Balandlik', speed: 'Tezlik' },
-    ru: { continue: 'Продолжайте путешествие', fact: 'ЗНАЕТЕ ЛИ ВЫ?', altitude: 'Высота', speed: 'Скорость' },
-    en: { continue: 'Continue the journey', fact: 'DID YOU KNOW?', altitude: 'Altitude', speed: 'Speed' },
+    uz: { continue: 'Sayohatni davom ettiring', fact: 'BILASIZMI?', speed: 'Tezlik', tomorrow: 'Ertaga' },
+    ru: { continue: 'Продолжайте путешествие', fact: 'ЗНАЕТЕ ЛИ ВЫ?', speed: 'Скорость', tomorrow: 'Завтра' },
+    en: { continue: 'Continue the journey', fact: 'DID YOU KNOW?', speed: 'Speed', tomorrow: 'Tomorrow' },
 };
+
+const cityCoordinates = {
+    samarqand: { latitude: 39.6542, longitude: 66.9597 },
+    buxoro: { latitude: 39.7747, longitude: 64.4286 },
+    xiva: { latitude: 41.3775, longitude: 60.3639 },
+    toshkent: { latitude: 41.2995, longitude: 69.2401 },
+    chimyon: { latitude: 41.5, longitude: 70.05 },
+};
+
+const weatherCodeText = {
+    uz: { clear: 'Ochiq osmon', cloudy: 'Bulutli', rain: 'Yomg‘ir', snow: 'Qor', storm: 'Momaqaldiroq', fog: 'Tuman' },
+    ru: { clear: 'Ясное небо', cloudy: 'Облачно', rain: 'Дождь', snow: 'Снег', storm: 'Гроза', fog: 'Туман' },
+    en: { clear: 'Clear sky', cloudy: 'Cloudy', rain: 'Rain', snow: 'Snow', storm: 'Thunderstorm', fog: 'Fog' },
+};
+
+function getWeatherLabel(code, language) {
+    const labels = weatherCodeText[language] || weatherCodeText.uz;
+    if (code <= 1) return { label: labels.clear, icon: '☀️' };
+    if (code <= 3) return { label: labels.cloudy, icon: '⛅' };
+    if ([45, 48].includes(code)) return { label: labels.fog, icon: '🌫️' };
+    if ([71, 73, 75, 77, 85, 86].includes(code)) return { label: labels.snow, icon: '❄️' };
+    if ([95, 96, 99].includes(code)) return { label: labels.storm, icon: '⛈️' };
+    return { label: labels.rain, icon: '🌧️' };
+}
 
 export function SceneScroll({ scenes, language = 'uz' }) {
     const containerRef = useRef();
     const progressRef = useRef(0);
     const [activeIdx, setActiveIdx] = useState(0);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const [liveWeather, setLiveWeather] = useState({});
+    const activeIdxRef = useRef(0);
+    const transitioningRef = useRef(false);
+    const soundSceneRef = useRef(null);
+    const soundTransitionRef = useRef(false);
+
+    useEffect(() => {
+        let cancelled = false;
+
+        const loadWeather = async () => {
+            const results = await Promise.all(scenes.map(async (scene) => {
+                const coordinates = cityCoordinates[scene.id];
+                if (!coordinates) return null;
+
+                try {
+                    const params = new URLSearchParams({
+                        latitude: coordinates.latitude,
+                        longitude: coordinates.longitude,
+                        current: 'temperature_2m,weather_code,is_day,wind_speed_10m',
+                        daily: 'temperature_2m_max,temperature_2m_min,weather_code',
+                        forecast_days: '2',
+                        timezone: 'Asia/Tashkent',
+                    });
+                    const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+                    if (!response.ok) throw new Error(`Weather request failed: ${response.status}`);
+                    const data = await response.json();
+                    const currentType = getWeatherLabel(data.current.weather_code, language);
+                    const tomorrowType = getWeatherLabel(data.daily.weather_code[1], language);
+                    return [scene.id, {
+                        temp: `${Math.round(data.current.temperature_2m)}°C`,
+                        condition: currentType.label,
+                        icon: data.current.is_day ? currentType.icon : '🌙',
+                        tomorrow: `${Math.round(data.daily.temperature_2m_min[1])}° / ${Math.round(data.daily.temperature_2m_max[1])}°C`,
+                        tomorrowIcon: tomorrowType.icon,
+                    }];
+                } catch {
+                    return null;
+                }
+            }));
+
+            if (!cancelled) setLiveWeather(Object.fromEntries(results.filter(Boolean)));
+        };
+
+        loadWeather();
+        const refreshTimer = window.setInterval(loadWeather, 10 * 60 * 1000);
+        return () => {
+            cancelled = true;
+            window.clearInterval(refreshTimer);
+        };
+    }, [scenes, language]);
 
     useEffect(() => {
         const el = containerRef.current;
@@ -56,12 +130,22 @@ export function SceneScroll({ scenes, language = 'uz' }) {
                 const localP = (p - idx * segSize) / segSize;
 
                 const transitioning = localP > 0.7 && idx < count - 1;
-                setActiveIdx(idx);
-                setIsTransitioning(transitioning);
+                if (activeIdxRef.current !== idx) {
+                    activeIdxRef.current = idx;
+                    setActiveIdx(idx);
+                }
+                if (transitioningRef.current !== transitioning) {
+                    transitioningRef.current = transitioning;
+                    setIsTransitioning(transitioning);
+                }
 
                 // Manzilga qarab tovush o'zgartirish
-                soundscape.setSpeedFlight(transitioning ? 1.0 : 0.0);
-                if (scenes[idx]) {
+                if (soundTransitionRef.current !== transitioning) {
+                    soundTransitionRef.current = transitioning;
+                    soundscape.setSpeedFlight(transitioning ? 1.0 : 0.0);
+                }
+                if (scenes[idx] && soundSceneRef.current !== scenes[idx].id) {
+                    soundSceneRef.current = scenes[idx].id;
                     soundscape.setLocationWeather(scenes[idx].id);
                 }
             },
@@ -75,6 +159,7 @@ export function SceneScroll({ scenes, language = 'uz' }) {
     const translated = sceneTranslations[language]?.[activeScene.id];
     const ui = uiTranslations[language] || uiTranslations.uz;
     const text = (field) => translated?.[field] || activeScene[field]?.[language] || activeScene[field]?.uz || activeScene[field] || '';
+    const weather = liveWeather[activeScene.id] || activeScene.weather;
 
     return (
         <div ref={containerRef} className={styles.flightContainer}>
@@ -120,28 +205,23 @@ export function SceneScroll({ scenes, language = 'uz' }) {
                     )}
 
                     <article className={styles.titleCard} key={activeScene.id}>
-                        <span className={styles.stepNum}>
-                            {String(activeIdx + 1).padStart(2, '0')} / {String(scenes.length).padStart(2, '0')}
-                        </span>
                         <span className={styles.eyebrow}>{text('eyebrow')}</span>
                         <h2 className={styles.titleText}>{activeScene.title[language]}</h2>
                         <p className={styles.subtitleText}>{activeScene.subtitle[language]}</p>
                         <p className={styles.storyText}>{text('story')}</p>
 
-                        {activeScene.weather && (
+                        {weather && (
                             <div className={styles.metaRow}>
                                 <div className={styles.weatherMini}>
-                                    <span>{activeScene.weather.icon}</span>
-                                    <span>{activeScene.weather.temp}</span>
+                                    <span>{weather.icon}</span>
+                                    <span>{weather.temp}</span>
                                     <span className={styles.weatherCondition}>
-                                        {language === 'ru'
-                                            ? ({ 'Musaffo tun': 'Ясная ночь', 'Sahro quyoshi': 'Солнце пустыни', 'Ochiq shafaq': 'Чистый рассвет', 'Salqin shahar oqshomi': 'Прохладный городской вечер', "Toza tog' havosi": 'Чистый горный воздух' }[activeScene.weather.condition] || activeScene.weather.condition)
-                                            : language === 'en'
-                                                ? ({ 'Musaffo tun': 'Clear night', 'Sahro quyoshi': 'Desert sun', 'Ochiq shafaq': 'Open dawn', 'Salqin shahar oqshomi': 'Cool city evening', "Toza tog' havosi": 'Fresh mountain air' }[activeScene.weather.condition] || activeScene.weather.condition)
-                                                : activeScene.weather.condition}
+                                        {weather.condition}
                                     </span>
                                 </div>
-                                <span className={styles.metaItem}>{ui.altitude}: {activeScene.altitude.replace('Balandlik: ', '')}</span>
+                                {weather.tomorrow && (
+                                    <span className={styles.metaItem}>{ui.tomorrow}: {weather.tomorrowIcon} {weather.tomorrow}</span>
+                                )}
                                 <span className={styles.metaItem}>{ui.speed}: {activeScene.speed.replace('Tezlik: ', '')}</span>
                             </div>
                         )}
