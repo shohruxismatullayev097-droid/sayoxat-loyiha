@@ -10,6 +10,8 @@ import styles from './CountryPage.module.css';
 const pageText = {
     uz: {
         back: 'Globusga qaytish',
+        heroEyebrow: 'MARKAZIY OSIYO  /  QADIMIY MEROS',
+        destinationEyebrow: "SAYOHAT YO'NALISHI",
         start: 'Sayohatni boshlang — pastga scroll qiling',
         bookingTitle: 'Sayohatni bron qiling',
         bookingDesc: 'O‘zbekistondagi sayohatingizni bugun rejalashtiring. Marshrutni siz uchun tayyorlaymiz.',
@@ -25,6 +27,8 @@ const pageText = {
     },
     ru: {
         back: 'Вернуться к глобусу',
+        heroEyebrow: 'ЦЕНТРАЛЬНАЯ АЗИЯ  /  ДРЕВНЕЕ НАСЛЕДИЕ',
+        destinationEyebrow: 'НАПРАВЛЕНИЕ ПУТЕШЕСТВИЯ',
         start: 'Начните путешествие — листайте вниз',
         bookingTitle: 'Забронировать путешествие',
         bookingDesc: 'Спланируйте путешествие по Узбекистану. Мы подготовим маршрут специально для вас.',
@@ -40,6 +44,8 @@ const pageText = {
     },
     en: {
         back: 'Back to globe',
+        heroEyebrow: 'CENTRAL ASIA  /  ANCIENT HERITAGE',
+        destinationEyebrow: 'TRAVEL DESTINATION',
         start: 'Start your journey — scroll down',
         bookingTitle: 'Book your journey',
         bookingDesc: 'Plan your journey through Uzbekistan. We will prepare a route made for you.',
@@ -110,6 +116,9 @@ export function CountryPage({ country, onClose, language = 'uz', onLanguageChang
                 style={{ backgroundImage: heroBg }}
             >
                 <span data-hero className={styles.flag}>{country.flag}</span>
+                <p data-hero className={styles.heroEyebrow}>
+                    {country.id === 'uzbekistan' ? text.heroEyebrow : text.destinationEyebrow}
+                </p>
                 <h1 data-hero className={styles.title}>{country.name[language]}</h1>
                 <p data-hero className={styles.subtitle}>
                     {text.start}

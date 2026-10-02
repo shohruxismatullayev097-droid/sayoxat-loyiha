@@ -277,6 +277,8 @@ button {
    TRANSITION OVERLAY (E variant)
    ============================================ */
 .transition-overlay {
+    --pulse-duration: 0.9s;
+    --pulse-scale: 12;
     position: fixed;
     inset: 0;
     z-index: 9999;
@@ -285,13 +287,20 @@ button {
     justify-content: center;
     background: radial-gradient(
         circle at center,
-        rgba(6, 182, 212, 0.15) 0%,
+        color-mix(in srgb, var(--transition-accent, #06b6d4) 15%, transparent) 0%,
         rgba(2, 3, 8, 0.98) 60%
     );
     pointer-events: none;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
 }
+
+.transition-overlay[data-country="japan"] { --pulse-duration: 0.82s; --pulse-scale: 11; }
+.transition-overlay[data-country="italy"] { --pulse-duration: 0.96s; --pulse-scale: 12.5; }
+.transition-overlay[data-country="egypt"] { --pulse-duration: 1.04s; --pulse-scale: 13; }
+.transition-overlay[data-country="brazil"] { --pulse-duration: 0.86s; --pulse-scale: 11.5; }
+.transition-overlay[data-country="canada"] { --pulse-duration: 0.98s; --pulse-scale: 12.5; }
+.transition-overlay[data-country="russia"] { --pulse-duration: 1.02s; --pulse-scale: 13; }
 
 .transition-star {
     width: 14px;
@@ -300,16 +309,16 @@ button {
     background: #fff;
     box-shadow:
         0 0 30px 6px #fff,
-        0 0 80px 16px rgba(6, 182, 212, 0.9),
-        0 0 160px 40px rgba(6, 182, 212, 0.4);
-    animation: starPulse 0.9s ease-out;
+        0 0 80px 16px var(--transition-accent, rgba(6, 182, 212, 0.9)),
+        0 0 160px 40px color-mix(in srgb, var(--transition-accent, #06b6d4) 40%, transparent);
+    animation: starPulse var(--pulse-duration) ease-out;
 }
 
 @keyframes starPulse {
     0%   { transform: scale(0);   opacity: 0; }
     25%  { transform: scale(1.4); opacity: 1; }
     60%  { transform: scale(2);   opacity: 1; }
-    100% { transform: scale(12);  opacity: 0; }
+    100% { transform: scale(var(--pulse-scale, 12));  opacity: 0; }
 }
 
 .loading-text {

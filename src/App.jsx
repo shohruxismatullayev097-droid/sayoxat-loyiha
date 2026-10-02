@@ -17,6 +17,7 @@ function App() {
         ru: { title: 'Путешествие', subtitle: 'Откройте мир', flight: ' — полёт к стране...' },
         en: { title: 'Travel', subtitle: 'Discover the world', flight: ' — flying to...' },
     }[language];
+    const transitionCountry = targetCountry || selected;
     const overlayRef = useRef();
 
     const handleSelect = (country) => {
@@ -54,7 +55,12 @@ function App() {
 
     return (
         <>
-            <div ref={overlayRef} className="transition-overlay">
+            <div
+                ref={overlayRef}
+                className="transition-overlay"
+                data-country={transitionCountry?.id || 'default'}
+                style={{ '--transition-accent': transitionCountry?.color || '#06b6d4' }}
+            >
                 <div className="transition-star" />
             </div>
 
